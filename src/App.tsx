@@ -19,20 +19,17 @@ const MarkdownChunk = lazy(() => import('./components/MarkdownChunk'));
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [files, setFiles] = useState<FileContent[]>(() => {
-    // 從 localStorage 讀取已保存的檔案
     const savedFiles = localStorage.getItem(STORAGE_KEY);
     return savedFiles ? JSON.parse(savedFiles) : [];
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<string | null>(() => {
-    // 從 localStorage 讀取已保存的檔案中選擇第一個作為預設
     const savedFiles = localStorage.getItem(STORAGE_KEY);
     const files = savedFiles ? JSON.parse(savedFiles) : [];
     return files.length > 0 ? files[0].name : null;
   });
 
-  // 當檔案列表改變時，保存到 localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
   }, [files]);
