@@ -2,7 +2,7 @@
 
 A beautiful, modern Progressive Web App for viewing markdown files with support for offline usage, dark mode, math equations, and dynamic loading.
 
-![Markdown Viewer Screenshot](https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&auto=format&fit=crop&q=80)
+![Markdown Viewer Screenshot](https://github.com/user-attachments/assets/8b93acee-47d0-4690-bceb-62f8c8c3870e)
 
 ## Features
 
