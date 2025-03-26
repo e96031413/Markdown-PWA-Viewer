@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { Virtuoso } from 'react-virtuoso';
-import { Moon, Sun, Upload, FileWarning, Wifi, WifiOff, Trash2, FileText } from 'lucide-react';
+import { Moon, Sun, Upload, FileWarning, Trash2, FileText } from 'lucide-react';
 
 interface FileContent {
   name: string;
@@ -18,7 +18,6 @@ const MarkdownChunk = lazy(() => import('./components/MarkdownChunk'));
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [files, setFiles] = useState<FileContent[]>(() => {
     // 從 localStorage 讀取已保存的檔案
     const savedFiles = localStorage.getItem(STORAGE_KEY);
@@ -37,19 +36,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
   }, [files]);
-
-  React.useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
 
   React.useEffect(() => {
     if (darkMode) {
@@ -140,20 +126,7 @@ function App() {
                   Markdown Viewer
                 </h1>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center">
-                  {isOnline ? (
-                    <div className="flex items-center text-green-500 dark:text-green-400">
-                      <Wifi className="h-5 w-5" />
-                      <span className="ml-2 text-sm font-medium">Online</span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center text-red-500 dark:text-red-400">
-                      <WifiOff className="h-5 w-5" />
-                      <span className="ml-2 text-sm font-medium">Offline</span>
-                    </div>
-                  )}
-                </div>
+              <div className="flex items-center">
                 <button
                   onClick={() => {
                     const newMode = !darkMode;
