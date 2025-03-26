@@ -13,6 +13,8 @@
   
   .prose pre {
     @apply bg-gray-100 dark:bg-gray-800 rounded-lg shadow-inner;
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   .dark .prose pre {
@@ -21,14 +23,34 @@
 
   .prose img {
     @apply mx-auto my-4 rounded-lg shadow-lg;
+    max-width: 100%;
+    height: auto;
   }
 
   .prose a {
     @apply text-blue-600 dark:text-blue-400 no-underline hover:underline transition-colors duration-200;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .markdown-chunk {
     @apply animate-fadeIn;
+  }
+
+  /* 確保所有內容都能自適應 */
+  .prose * {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* 調整表格的響應式行為 */
+  .prose table {
+    @apply w-full;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .dark .prose {
