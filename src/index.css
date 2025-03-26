@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800;
+  }
+
+  .prose {
+    max-width: none;
+  }
+  
+  .prose pre {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg shadow-inner;
+  }
+
+  .dark .prose pre {
+    @apply bg-gray-800/80 text-gray-100;
+  }
+
+  .prose img {
+    @apply mx-auto my-4 rounded-lg shadow-lg;
+  }
+
+  .prose a {
+    @apply text-blue-600 dark:text-blue-400 no-underline hover:underline transition-colors duration-200;
+  }
+
+  .markdown-chunk {
+    @apply animate-fadeIn;
+  }
+
+  .dark .prose {
+    @apply text-gray-100;
+  }
+
+  .dark .prose h1,
+  .dark .prose h2,
+  .dark .prose h3,
+  .dark .prose h4,
+  .dark .prose h5,
+  .dark .prose h6 {
+    @apply text-gray-50;
+  }
+
+  .dark .prose strong {
+    @apply text-gray-50;
+  }
+
+  .dark .prose code {
+    @apply bg-gray-800 text-red-400;
+  }
+
+  .dark .prose blockquote {
+    @apply bg-gray-800/50 border-l-4 border-blue-500 text-gray-300;
+  }
+
+  .dark .prose thead {
+    @apply text-gray-50;
+  }
+
+  .dark .prose tbody td {
+    @apply text-gray-300;
+  }
+
+  .dark .prose ol > li::marker,
+  .dark .prose ul > li::marker {
+    @apply text-gray-400;
+  }
+
+  /* KaTeX styles for dark mode */
+  .dark .katex {
+    @apply text-gray-100;
+  }
+
+  .dark .katex-display {
+    @apply bg-gray-800/30 rounded-lg p-4;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-md hover:shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:shadow border border-gray-200 dark:border-gray-600;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800/90 rounded-xl shadow-lg backdrop-blur-lg backdrop-filter;
+  }
+
+  .input {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-200;
+  }
+}
