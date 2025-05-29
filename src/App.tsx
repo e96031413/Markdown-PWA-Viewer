@@ -3,7 +3,15 @@ import { useDropzone } from 'react-dropzone';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { Virtuoso } from 'react-virtuoso';
-import { Moon, Sun, Upload, FileWarning, Trash2, FileText } from 'lucide-react';
+import {
+  Moon,
+  Sun,
+  Upload,
+  FileWarning,
+  Trash2,
+  FileText,
+  Download,
+} from 'lucide-react';
 
 interface FileContent {
   name: string;
@@ -17,13 +25,17 @@ const STORAGE_KEY = 'markdown-files';
 const MarkdownChunk = lazy(() => import('./components/MarkdownChunk'));
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('darkMode');
+    return saved === 'true';
+  });
   const [files, setFiles] = useState<FileContent[]>(() => {
     const savedFiles = localStorage.getItem(STORAGE_KEY);
     return savedFiles ? JSON.parse(savedFiles) : [];
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
   const [selectedFile, setSelectedFile] = useState<string | null>(() => {
     const savedFiles = localStorage.getItem(STORAGE_KEY);
     const files = savedFiles ? JSON.parse(savedFiles) : [];
@@ -40,6 +52,7 @@ function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
+    localStorage.setItem('darkMode', String(darkMode));
   }, [darkMode]);
 
   const splitIntoChunks = (content: string): string[] => {
@@ -102,6 +115,20 @@ function App() {
     }
   };
 
+  const handleDownloadFile = (fileName: string) => {
+    const file = files.find((f) => f.name === fileName);
+    if (!file) return;
+    const blob = new Blob([file.content], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -125,11 +152,7 @@ function App() {
               </div>
               <div className="flex items-center">
                 <button
-                  onClick={() => {
-                    const newMode = !darkMode;
-                    setDarkMode(newMode);
-                    localStorage.setItem('darkMode', String(newMode));
-                  }}
+                  onClick={() => setDarkMode((prev) => !prev)}
                   className="inline-flex items-center px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800"
                   title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
                 >
@@ -175,8 +198,19 @@ function App() {
               {files.length > 0 && (
                 <div className="card p-4">
                   <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">Your files</h3>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search files"
+                    className="input mb-3"
+                  />
                   <ul className="space-y-2">
-                    {files.map((file) => (
+                    {files
+                      .filter((file) =>
+                        file.name.toLowerCase().includes(search.toLowerCase())
+                      )
+                      .map((file) => (
                       <li key={file.name} className="group flex items-center">
                         <button
                           onClick={() => setSelectedFile(file.name)}
@@ -191,6 +225,13 @@ function App() {
                             <FileText className="h-4 w-4 flex-shrink-0 mr-2" />
                             <span className="truncate block">{file.name}</span>
                           </div>
+                        </button>
+                        <button
+                          onClick={() => handleDownloadFile(file.name)}
+                          className="opacity-0 group-hover:opacity-100 ml-2 p-2 text-gray-400 hover:text-green-600 dark:text-gray-500 dark:hover:text-green-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 flex-shrink-0"
+                          title="Download file"
+                        >
+                          <Download className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteFile(file.name)}

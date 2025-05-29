@@ -8,6 +8,7 @@ A beautiful, modern Progressive Web App for viewing markdown files with support 
 
 - 📱 Progressive Web App (PWA) support
 - 🌓 Dark mode support
+- 💡 Remembers dark mode preference
 - ⚡ Dynamic chunk loading for large files
 - 📂 Drag & drop file upload
 - 🔄 Automatic file preview
@@ -17,6 +18,7 @@ A beautiful, modern Progressive Web App for viewing markdown files with support 
 - 🔒 Secure file handling (client-side only)
 - 📐 LaTeX math equations support
 - 🎯 Optimized performance with virtual scrolling
+- 🔍 File search and quick download
 
 ## File Storage
 
@@ -103,6 +105,8 @@ After deployment:
    - Code blocks are syntax highlighted
    - Images and links are supported
    - Math equations are rendered using KaTeX
+   - Use the search box to quickly filter files
+   - Download any file from the list
 
 3. **Dark Mode**
    - Toggle dark mode using the sun/moon icon
